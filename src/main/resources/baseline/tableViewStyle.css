@@ -1,16 +1,50 @@
-.table-view{
-   	-fx-background-color: transparent;
+.table-view {
+    -fx-base:  #333947;
+    -fx-background-color: #1c2333;
+    -fx-control-inner-background: #333947;
+    -fx-table-header-border-color: transparent;
+    -fx-padding: 5;
 }
 
-.table-view .filler{
-	-fx-background-color:  #161c29;
+.table-view .column-header-background {
+    -fx-background-color:  #1c2333;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 25;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-insets: 0 10 1 0;
+}
+
+.table-view.column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 14;
+    -fx-text-fill: white;
+    -fx-alignment: center-left;
+}
+
+.table-view:focused .table-row-cell:focused {
+    -fx-border-color: derive(-fx-base, 20%);
+    -fx-background-insets: 0 0 0 0;
+	-fx-table-cell-border-color: transparent;
+
+}
+
+.table-view:focused .table-row-cell:hover {
+    -fx-border-color: derive(-fx-base, 20%);
+    -fx-background-insets: 0 0 0 0;
+	-fx-table-cell-border-color: transparent;
+
+}
+
+.table-view:focused .table-row-cell:selected {
+    -fx-background-color: derive(-fx-base, 20%);
+    -fx-background-insets: 0 0 0 0;
 }
 
 
-.table-view .column-header-background{
-    -fx-background-color: #161c29;
-}
-
-.table-view .column-header {
-    -fx-background-color:  #161c29;
-}

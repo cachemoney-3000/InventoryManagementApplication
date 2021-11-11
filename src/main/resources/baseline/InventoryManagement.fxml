@@ -34,9 +34,9 @@
             </HBox>
             <HBox prefHeight="95.0" prefWidth="800.0" style="-fx-background-color: #1c2333;">
                <children>
-                  <HBox prefHeight="38.0" prefWidth="659.0" style="-fx-background-color: #2b3245; -fx-background-radius: 5;">
+                  <HBox prefHeight="21.0" prefWidth="650.0" style="-fx-background-color: #2b3245; -fx-background-radius: 5;">
                      <children>
-                        <TextField fx:id="searchField" onAction="#search" prefHeight="26.0" prefWidth="599.0" promptText="Search" styleClass="textField" stylesheets="@style.css">
+                        <TextField fx:id="searchField" onAction="#search" prefHeight="88.0" prefWidth="599.0" promptText="Search" styleClass="textField" stylesheets="@style.css">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -44,7 +44,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </TextField>
-                        <Button fx:id="addButton1" mnemonicParsing="false" onMouseClicked="#add" stylesheets="@style.css">
+                        <Button fx:id="searchButton" mnemonicParsing="false" onMouseClicked="#search" prefHeight="10.0" prefWidth="38.0" stylesheets="@style.css">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -61,7 +61,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </HBox>
-                  <Button fx:id="addButton2" mnemonicParsing="false" onMouseClicked="#add" prefHeight="38.0" prefWidth="90.0" style="-fx-font-weight: bold;" styleClass="button3" stylesheets="@style.css" text="Clear List">
+                  <Button fx:id="clearButton" mnemonicParsing="false" onMouseClicked="#clearAll" prefHeight="38.0" prefWidth="90.0" style="-fx-font-weight: bold;" styleClass="button3" stylesheets="@style.css" text="Clear List">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -71,35 +71,31 @@
                   </Button>
                </children>
             </HBox>
-            <TableView fx:id="table" prefHeight="500.0" prefWidth="706.0" stylesheets="@tableViewStyle.css">
+            <TableView fx:id="table" prefHeight="585.0" prefWidth="800.0" styleClass="table-row-cell" stylesheets="@tableViewStyle.css">
               <columns>
-                <TableColumn fx:id="itemName" prefWidth="200.79998779296875" text="Item Name" />
-                <TableColumn fx:id="itemValue" prefWidth="220.80003356933594" text="Value" />
-                  <TableColumn fx:id="itemSerialNumber" prefWidth="264.79998779296875" text="Serial Number" />
-                  <TableColumn fx:id="itemActions" minWidth="0.0" prefWidth="99.199951171875" text="Actions" />
+                  <TableColumn fx:id="itemName" prefWidth="319.9999694824219" text="Item Name" />
+                <TableColumn fx:id="itemValue" minWidth="0.0" prefWidth="153.60003662109375" text="Value" />
+                <TableColumn fx:id="itemSerialNumber" prefWidth="196.00006103515625" text="Serial Number" />
+                  <TableColumn fx:id="itemActions" prefWidth="104.800048828125" text="Action" />
               </columns>
-               <styleClass>
-                  <String fx:value="column-header" />
-                  <String fx:value="column-header-background" />
-               </styleClass>
             </TableView>
             <HBox prefHeight="45.0" prefWidth="800.0" style="-fx-background-color: #1c2333;">
                <children>
-                  <TextField fx:id="itemNameTextField" prefHeight="26.0" prefWidth="374.0" promptText="Item Name" styleClass="textField" stylesheets="@style.css">
+                  <TextField fx:id="itemNameTextField" prefHeight="26.0" prefWidth="374.0" promptText="Item Name" styleClass="textField1" stylesheets="@style.css">
                      <HBox.margin>
                         <Insets bottom="15.0" left="10.0" right="10.0" top="15.0" />
                      </HBox.margin>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding></TextField>
-                  <TextField fx:id="itemValueTextField" prefHeight="38.0" prefWidth="174.0" promptText="Value" styleClass="textField" stylesheets="@style.css">
+                  <TextField fx:id="itemValueTextField" prefHeight="38.0" prefWidth="174.0" promptText="Value" styleClass="textField1" stylesheets="@style.css">
                      <HBox.margin>
                         <Insets bottom="15.0" right="10.0" top="15.0" />
                      </HBox.margin>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding></TextField>
-                  <TextField fx:id="itemSerialNumberTextField" prefHeight="38.0" prefWidth="157.0" promptText="Serial Number" styleClass="textField" stylesheets="@style.css">
+                  <TextField fx:id="itemSerialNumberTextField" prefHeight="38.0" prefWidth="157.0" promptText="Serial Number" styleClass="textField1" stylesheets="@style.css">
                      <HBox.margin>
                         <Insets bottom="15.0" top="15.0" />
                      </HBox.margin>

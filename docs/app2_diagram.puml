@@ -1,0 +1,38 @@
+@startuml
+
+class InventoryManagementApplication{
+    'This will make the program run
+    +start()
+    'This will launch the program
+    +main()
+}
+class File{
+    +save()
+    +saveHTML()
+    +saveTXT()
+    +saveTSV()
+    +load()
+    +loadHTML()
+    +loadTXT()
+    +loadTSV()
+}
+class InventoryModel{
+    'getters
+    +getItemName()
+    +getItemValue()
+    +getItemSerialNumber()
+}
+class Controller{
+    add()
+    clear()
+    load()
+    save()
+    search()
+}
+
+InventoryManagementApplication <|-- javafx.application.Application
+InventoryManagementApplication *-- Controller
+Controller *-- File
+Controller *-- InventoryModel
+
+@enduml

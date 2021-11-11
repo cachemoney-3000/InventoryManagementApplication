@@ -59,7 +59,7 @@
 
 
 
-//List name text field
+// SEARCH FIELD
 .textField {
 	-fx-background-color:  #2b3245;
 	-fx-background-radius: 5;
@@ -78,6 +78,28 @@
 }
 .textField: focused{
     -fx-background-color: rgba(0,0,0,0.1);
+    -fx-text-fill: #e9e8f6;
+}
+
+// BOTTOMS FIELD
+.textField1 {
+	-fx-background-color:  #19202e;
+	-fx-background-radius: 5;
+	-fx-text-fill: white;
+ 	-fx-prompt-text-fill: #acaeb0;
+	
+}
+.textField1: hover {
+	-fx-background-color: #333947;
+    -fx-text-fill: white;
+}
+
+.textField1: pressed {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e9e8f6;
+}
+.textField1: focused{
+    -fx-background-color: #333947;
     -fx-text-fill: #e9e8f6;
 }
 

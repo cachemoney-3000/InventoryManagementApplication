@@ -55,26 +55,33 @@ public class Controller {
 
     @FXML
     void add(MouseEvent event) {
-
+        // This will call the "InventoryModel" class to get the value from the text fields
+        // This will add an item into the list
     }
 
     @FXML
     void clearAll(MouseEvent event) {
-
+        // This will remove all the items inside the list
     }
 
     @FXML
     void load(ActionEvent event) {
+        // This will call the File object, so it can load a file and show it to the table
 
     }
 
     @FXML
     void save(ActionEvent event) {
+        // This will call the File object
+        // Then it will save the items inside the table into a file
+        // The user will choose for the extension
 
     }
 
     @FXML
     void search(MouseEvent event) {
+        // This method will search
+        // It can search either by item name or serial number
 
     }
 
