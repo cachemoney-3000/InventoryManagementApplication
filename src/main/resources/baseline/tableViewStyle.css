@@ -1,0 +1,16 @@
+.table-view{
+   	-fx-background-color: transparent;
+}
+
+.table-view .filler{
+	-fx-background-color:  #161c29;
+}
+
+
+.table-view .column-header-background{
+    -fx-background-color: #161c29;
+}
+
+.table-view .column-header {
+    -fx-background-color:  #161c29;
+}

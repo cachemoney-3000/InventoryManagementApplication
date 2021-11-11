@@ -1,0 +1,104 @@
+// SEARCH BUTTON
+.button {
+    	-fx-background-color:   transparent;
+}
+
+.button:hover {
+    	-fx-background-color:  rgba(0,0,0,0.2);
+}
+
+.button:pressed {
+    	-fx-background-color:  rgba(0,0,0,0.1);
+}
+
+.button:focused {
+    	-fx-background-color: rgba(0,0,0,0.1);
+}
+
+
+// REMOVE BUTTON
+.button3 {
+    	-fx-background-color:   #c20114;
+	-fx-background-radius: 1em;
+    	-fx-text-fill: white;
+    	-fx-text-alignment: left;
+}
+
+.button3:hover {
+    	-fx-background-color:  #ae0112;
+    	-fx-text-fill: #e6e6e6;
+}
+
+.button3:pressed {
+    	-fx-background-color:  #ae0112;
+    	-fx-text-fill: #e6e6e6;
+}
+
+.button3:focused {
+    	-fx-background-color: #ae0112;
+    	-fx-text-fill: #e6e6e6;
+}
+
+// ADD BUTTON
+.button2 {
+    	-fx-background-color:   #3772ff;
+	-fx-background-radius: 1em;
+}
+
+.button2:hover {
+    	-fx-background-color:  #3167e6;
+}
+
+.button2:pressed {
+    	-fx-background-color:  #3167e6;
+}
+
+.button2:focused {
+    	-fx-background-color: #3167e6;
+}
+
+
+
+//List name text field
+.textField {
+	-fx-background-color:  #2b3245;
+	-fx-background-radius: 5;
+	-fx-text-fill: white;
+ 	-fx-prompt-text-fill: #acaeb0;
+	
+}
+.textField: hover {
+	-fx-background-color: rgba(0,0,0,0.1);
+    -fx-text-fill: white;
+}
+
+.textField: pressed {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e9e8f6;
+}
+.textField: focused{
+    -fx-background-color: rgba(0,0,0,0.1);
+    -fx-text-fill: #e9e8f6;
+}
+
+
+// MENU BUTTON
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+.menu-item:focused {
+     -fx-background-color: #2b3245;
+}
+
+.menu-item:hover {
+     -fx-background-color: #2b3245;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    	-fx-background-color:  #1c2333;
+}
