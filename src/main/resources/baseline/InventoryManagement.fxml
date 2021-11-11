@@ -73,13 +73,13 @@
             </HBox>
             <TableView fx:id="table" prefHeight="585.0" prefWidth="800.0" styleClass="table-row-cell" stylesheets="@tableViewStyle.css">
               <columns>
-                  <TableColumn fx:id="itemName" prefWidth="319.9999694824219" text="Item Name" />
-                <TableColumn fx:id="itemValue" minWidth="0.0" prefWidth="153.60003662109375" text="Value" />
-                <TableColumn fx:id="itemSerialNumber" prefWidth="196.00006103515625" text="Serial Number" />
-                  <TableColumn fx:id="itemActions" prefWidth="104.800048828125" text="Action" />
+                  <TableColumn fx:id="itemName" prefWidth="348.0" text="Item Name" />
+                <TableColumn fx:id="itemValue" minWidth="0.0" prefWidth="152.79998779296875" text="Value" />
+                <TableColumn fx:id="itemSerialNumber" prefWidth="208.800048828125" text="Serial Number" />
+                  <TableColumn fx:id="itemActions" prefWidth="67.9998779296875" text="Action" />
               </columns>
             </TableView>
-            <HBox prefHeight="45.0" prefWidth="800.0" style="-fx-background-color: #1c2333;">
+            <HBox prefHeight="45.0" prefWidth="800.0" style="-fx-background-color: #19202e;">
                <children>
                   <TextField fx:id="itemNameTextField" prefHeight="26.0" prefWidth="374.0" promptText="Item Name" styleClass="textField1" stylesheets="@style.css">
                      <HBox.margin>

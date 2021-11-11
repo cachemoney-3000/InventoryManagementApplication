@@ -61,7 +61,7 @@
 
 // SEARCH FIELD
 .textField {
-	-fx-background-color:  #2b3245;
+	-fx-background-color:   #2b3245;
 	-fx-background-radius: 5;
 	-fx-text-fill: white;
  	-fx-prompt-text-fill: #acaeb0;
@@ -83,7 +83,7 @@
 
 // BOTTOMS FIELD
 .textField1 {
-	-fx-background-color:  #19202e;
+	-fx-background-color:  #2b313c;
 	-fx-background-radius: 5;
 	-fx-text-fill: white;
  	-fx-prompt-text-fill: #acaeb0;

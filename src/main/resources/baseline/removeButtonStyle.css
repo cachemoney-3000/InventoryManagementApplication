@@ -1,0 +1,16 @@
+// SEARCH BUTTON
+.button{
+    	-fx-background-color:   transparent;
+}
+
+.button:hover {
+    	-fx-background-color:  rgba(0,0,0,0.2);
+}
+
+.button:pressed {
+    	-fx-background-color:  rgba(0,0,0,0.1);
+}
+
+.button:focused {
+    	-fx-background-color: rgba(0,0,0,0.1);
+}

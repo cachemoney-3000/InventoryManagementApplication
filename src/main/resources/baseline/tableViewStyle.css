@@ -29,6 +29,7 @@
 }
 
 .table-view:focused .table-row-cell:focused {
+	-fx-background-color: #aabfef;
     -fx-border-color: derive(-fx-base, 20%);
     -fx-background-insets: 0 0 0 0;
 	-fx-table-cell-border-color: transparent;
