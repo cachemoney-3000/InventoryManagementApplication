@@ -119,7 +119,6 @@ public class Controller implements Initializable {
             fileChooser.setTitle("Save");
 
             try{
-                StringBuilder sb = new StringBuilder();
                 try(FileWriter writer = new FileWriter(fileChooser.showSaveDialog(new Stage()))){
                     String extension = fileChooser.selectedExtensionFilterProperty().get().getExtensions().get(0).substring(1);
                     System.out.println(extension);
@@ -135,6 +134,38 @@ public class Controller implements Initializable {
                     }
 
                     if(extension.matches(".html")){
+                        String html1 = """
+                                <!DOCTYPE html>
+                                <html>
+                                <style>
+                                table, th, td {
+                                  border:1px solid black;
+                                }
+                                </style>
+                                <body>
+
+                                <table style="width:100%">
+                                    <tr>
+                                        <th>Serial Number</th>
+                                        <th>Item Name</th>
+                                        <th>Value</th>
+                                    </tr>""";
+                        String html2 = """
+                                </table>
+
+                                </body>
+                                </html>""";
+
+                        StringBuilder data = new StringBuilder();
+
+                        for(InventoryModel item : itemList) {
+                            data.append("<tr>\n<td>").append(item.getItemSerialNumber()).
+                                    append("</td>\n").append("<td>").append(item.getItemName()).
+                                    append("</td>\n").append("<td>").append(item.getValue()).append("</td>\n");
+                        }
+
+                        writer.write(html1 + data + html2);
+
 
                     }
 
