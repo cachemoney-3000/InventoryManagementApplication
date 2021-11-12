@@ -118,9 +118,92 @@ public class Controller implements Initializable {
         textFieldListener();
         searchItem();
         removeItem();
-
+        editableTable();
 
     }
+
+    private void editableTable(){
+        String invalid = "Invalid Value";
+
+        itemName.setOnEditCommit(event -> {
+            String newValue = event.getNewValue();
+
+            if(Objects.equals(newValue, "") ||
+                    newValue.length() < 2 || newValue.length() > 256){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(invalid);
+                alert.setContentText("An item name must be 2 - 256 characters inclusive");
+
+                alert.showAndWait();
+            }
+            else{
+                event.getRowValue().setItemName(newValue);
+            }
+
+            itemName.setVisible(false);
+            itemName.setVisible(true);
+        });
+
+        itemValue.setOnEditCommit(event -> {
+            String newValue = event.getNewValue();
+
+            if(Objects.equals(newValue, "")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(invalid);
+                alert.setContentText("Item value is empty");
+
+                alert.showAndWait();
+
+            }
+
+            if(newValue.matches("[0-9]+")){
+                System.out.println("Input valid");
+                event.getRowValue().setValue(newValue);
+            }
+
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(invalid);
+                alert.setContentText("An item must be a valid digit");
+
+                alert.showAndWait();
+            }
+
+            itemValue.setVisible(false);
+            itemValue.setVisible(true);
+        });
+
+
+        itemSerialNumber.setOnEditCommit(event -> {
+            String newValue = event.getNewValue();
+
+            if (Objects.equals(newValue, "")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(invalid);
+                alert.setContentText("Serial number is empty");
+
+                alert.showAndWait();
+            }
+            else{
+                event.getRowValue().setItemName(newValue);
+            }
+
+            if(newValue.matches("[A-Za-z]+-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}")){
+                System.out.println("Serial Valid");
+            }
+            else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(invalid);
+                alert.setContentText("A serial number must follow this format A-XXX-XXX-XXX");
+
+                alert.showAndWait();
+            }
+
+            itemSerialNumber.setVisible(false);
+            itemSerialNumber.setVisible(true);
+        });
+    }
+
 
     private void removeItem(){
         removeButton.setOnAction(e -> {
@@ -128,6 +211,7 @@ public class Controller implements Initializable {
             table.getItems().remove(selectedItem);
         });
     }
+    
     private void editTableCol() {
         itemName.setCellFactory(TextFieldTableCell.forTableColumn());
 
