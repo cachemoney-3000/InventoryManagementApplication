@@ -3,23 +3,21 @@ package baseline;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.SetChangeListener;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
@@ -63,9 +61,7 @@ public class Controller implements Initializable {
     @FXML
     private TextField searchField;
 
-    private final ObservableList<InventoryModel> itemList = FXCollections.observableArrayList(
-            item -> new Observable[] {item.itemName}
-    );
+    private final ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
 
 
     @FXML
@@ -74,9 +70,25 @@ public class Controller implements Initializable {
         String itemValue = itemValueTextField.getText();
         String itemSerial = itemSerialNumberTextField.getText();
 
-        itemList.add(new InventoryModel(item, itemValue, itemSerial));
-        table.setItems(itemList);
-        System.out.println(itemList);
+
+        if(itemList.contains(new InventoryModel(item, null, itemSerial))){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Item already exist!");
+            alert.setContentText("An item name and serial number must be unique.");
+
+            alert.showAndWait();
+        }
+
+        else{
+            itemList.add(new InventoryModel(item, itemValue, itemSerial));
+            table.setItems(itemList);
+            System.out.println(itemList);
+        }
+
+
+        itemNameTextField.setText(null);
+        itemValueTextField.setText(null);
+        itemSerialNumberTextField.setText(null);
     }
 
     @FXML
@@ -122,8 +134,10 @@ public class Controller implements Initializable {
 
     }
 
+
+
     private void editableTable(){
-        String invalid = "Invalid Value";
+        String invalid = "Invalid Value!";
 
         itemName.setOnEditCommit(event -> {
             String newValue = event.getNewValue();
@@ -132,7 +146,7 @@ public class Controller implements Initializable {
                     newValue.length() < 2 || newValue.length() > 256){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("An item name must be 2 - 256 characters inclusive");
+                alert.setContentText("An item name must be 2 - 256 characters inclusive.");
 
                 alert.showAndWait();
             }
@@ -150,7 +164,7 @@ public class Controller implements Initializable {
             if(Objects.equals(newValue, "")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("Item value is empty");
+                alert.setContentText("Item value is empty.");
 
                 alert.showAndWait();
 
@@ -164,7 +178,7 @@ public class Controller implements Initializable {
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("An item must be a valid digit");
+                alert.setContentText("An item must be a valid digit.");
 
                 alert.showAndWait();
             }
@@ -180,7 +194,7 @@ public class Controller implements Initializable {
             if (Objects.equals(newValue, "")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("Serial number is empty");
+                alert.setContentText("Serial number is empty.");
 
                 alert.showAndWait();
             }
@@ -194,7 +208,7 @@ public class Controller implements Initializable {
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("A serial number must follow this format A-XXX-XXX-XXX");
+                alert.setContentText("A serial number must follow this format A-XXX-XXX-XXX.");
 
                 alert.showAndWait();
             }
@@ -211,7 +225,7 @@ public class Controller implements Initializable {
             table.getItems().remove(selectedItem);
         });
     }
-    
+
     private void editTableCol() {
         itemName.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -235,49 +249,49 @@ public class Controller implements Initializable {
 
     private void textFieldListener() {
         addButton.setOnAction(event -> {
-            String invalid = "Invalid Value";
+            String invalid = "Invalid Value!";
             if(Objects.equals(itemNameTextField.getText(), "") ||
                     itemNameTextField.getText().length() < 2 || itemNameTextField.getText().length() > 256){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("An item name must be 2 - 256 characters inclusive");
+                alert.setContentText("An item name must be 2 - 256 characters inclusive.");
 
                 alert.showAndWait();
             }
             else if (Objects.equals(itemValueTextField.getText(), "")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("Item value is empty");
+                alert.setContentText("Item value is empty.");
 
                 alert.showAndWait();
             }
             else if (Objects.equals(itemSerialNumberTextField.getText(), "")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("Serial number is empty");
+                alert.setContentText("Serial number is empty.");
 
                 alert.showAndWait();
             }
 
             if(itemValueTextField.getText().matches("[0-9]+")){
-                System.out.println("Input valid");
+                System.out.println("Input valid.");
             }
 
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("An item must be a valid digit");
+                alert.setContentText("An item must be a valid digit.");
 
                 alert.showAndWait();
             }
 
             if(itemSerialNumberTextField.getText().matches("[A-Za-z]+-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}")){
-                System.out.println("Serial Valid");
+                System.out.println("Serial Valid.");
             }
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
-                alert.setContentText("A serial number must follow this format A-XXX-XXX-XXX");
+                alert.setContentText("A serial number must follow this format A-XXX-XXX-XXX.");
 
                 alert.showAndWait();
             }
