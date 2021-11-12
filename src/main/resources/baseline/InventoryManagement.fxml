@@ -36,7 +36,7 @@
                <children>
                   <HBox prefHeight="21.0" prefWidth="650.0" style="-fx-background-color: #2b3245; -fx-background-radius: 5;">
                      <children>
-                        <TextField fx:id="searchField" onAction="#search" prefHeight="88.0" prefWidth="599.0" promptText="Search" styleClass="textField" stylesheets="@style.css">
+                        <TextField fx:id="searchField" prefHeight="38.0" prefWidth="624.0" promptText="Search" styleClass="textField" stylesheets="@style.css">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -44,18 +44,14 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </TextField>
-                        <Button fx:id="searchButton" mnemonicParsing="false" onMouseClicked="#search" prefHeight="10.0" prefWidth="38.0" stylesheets="@style.css">
-                           <graphic>
-                              <ImageView fitHeight="24.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@icons/search.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
+                        <ImageView fitHeight="24.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/search.png" />
+                           </image>
                            <HBox.margin>
-                              <Insets bottom="4.0" top="4.0" />
+                              <Insets bottom="8.0" left="10.0" right="5.0" top="8.0" />
                            </HBox.margin>
-                        </Button>
+                        </ImageView>
                      </children>
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -73,14 +69,25 @@
             </HBox>
             <TableView fx:id="table" prefHeight="585.0" prefWidth="800.0" styleClass="table-row-cell" stylesheets="@tableViewStyle.css">
               <columns>
-                  <TableColumn fx:id="itemName" prefWidth="348.0" text="Item Name" />
-                <TableColumn fx:id="itemValue" minWidth="0.0" prefWidth="152.79998779296875" text="Value" />
-                <TableColumn fx:id="itemSerialNumber" prefWidth="208.800048828125" text="Serial Number" />
-                  <TableColumn fx:id="itemActions" prefWidth="67.9998779296875" text="Action" />
+                  <TableColumn fx:id="itemName" prefWidth="341.60003662109375" text="Item Name" />
+                <TableColumn fx:id="itemValue" minWidth="0.0" prefWidth="192.0" text="Value" />
+                <TableColumn fx:id="itemSerialNumber" prefWidth="264.79998779296875" text="Serial Number" />
               </columns>
             </TableView>
             <HBox prefHeight="45.0" prefWidth="800.0" style="-fx-background-color: #19202e;">
                <children>
+                  <Button fx:id="removeButton" mnemonicParsing="false" styleClass="button4" stylesheets="@style.css">
+                     <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="15.0" left="10.0" top="15.0" />
+                     </HBox.margin>
+                  </Button>
                   <TextField fx:id="itemNameTextField" prefHeight="26.0" prefWidth="374.0" promptText="Item Name" styleClass="textField1" stylesheets="@style.css">
                      <HBox.margin>
                         <Insets bottom="15.0" left="10.0" right="10.0" top="15.0" />

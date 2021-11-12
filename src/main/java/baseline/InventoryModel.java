@@ -3,6 +3,8 @@ package baseline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Button;
 
+import java.util.Objects;
+
 public class InventoryModel {
    SimpleStringProperty itemName;
    SimpleStringProperty value;
@@ -37,5 +39,26 @@ public class InventoryModel {
 
     public void setItemSerialNumber(String serialNumber){
         this.itemSerialNumber = new SimpleStringProperty(serialNumber);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof InventoryModel)) {
+            return false;
+        }
+        InventoryModel inventory = (InventoryModel) o;
+
+        // persons.id.equals() leads to the default implementation in Object
+        // --> instead use this one.
+        // The Property classes have their own isEqualTo method
+        // with get(), you will get your simple boolean from the returned BooleanBinding
+        return inventory.itemSerialNumber.isEqualTo(itemSerialNumber).get() &&
+                inventory.itemName.isEqualTo(itemName).get();
+    }
+
+    @Override
+    public String toString() {
+        return itemName + "/" + itemSerialNumber + "/" + value;
     }
 }

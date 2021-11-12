@@ -57,6 +57,24 @@
     	-fx-background-color: #3167e6;
 }
 
+// REMOVE ITEM BUTTON
+.button4 {
+    	-fx-background-color:   #e04f5f;
+	-fx-background-radius: 1em;
+}
+
+.button4:hover {
+    	-fx-background-color:  #ca4756;
+}
+
+.button4:pressed {
+    	-fx-background-color:  #ca4756;
+}
+
+.button4:focused {
+    	-fx-background-color: #ca4756;
+}
+
 
 
 // SEARCH FIELD

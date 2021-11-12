@@ -1,11 +1,17 @@
 package baseline;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.SetChangeListener;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -13,8 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Controller implements Initializable {
 
@@ -34,9 +39,6 @@ public class Controller implements Initializable {
     private TableColumn<InventoryModel, String> itemValue;
 
     @FXML
-    private TableColumn<InventoryModel, String> itemActions;
-
-    @FXML
     private TableColumn<InventoryModel, String> itemName;
 
     @FXML
@@ -54,13 +56,16 @@ public class Controller implements Initializable {
     @FXML
     private MenuItem saveButton;
 
+
     @FXML
-    private Button searchButton;
+    private Button removeButton;
 
     @FXML
     private TextField searchField;
 
-    private final ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
+    private final ObservableList<InventoryModel> itemList = FXCollections.observableArrayList(
+            item -> new Observable[] {item.itemName}
+    );
 
 
     @FXML
@@ -71,11 +76,13 @@ public class Controller implements Initializable {
 
         itemList.add(new InventoryModel(item, itemValue, itemSerial));
         table.setItems(itemList);
+        System.out.println(itemList);
     }
 
     @FXML
     void clearAll(MouseEvent event) {
-        // This will remove all the items inside the list
+        table.getItems().clear();
+        System.out.println(itemList);
     }
 
     @FXML
@@ -86,18 +93,10 @@ public class Controller implements Initializable {
 
     @FXML
     void save(ActionEvent event) {
-        // This will call the File object
-        // Then it will save the items inside the table into a file
-        // The user will choose for the extension
 
     }
 
-    @FXML
-    void search(MouseEvent event) {
-        // This method will search
-        // It can search either by item name or serial number
 
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -111,12 +110,24 @@ public class Controller implements Initializable {
                 new PropertyValueFactory<>("itemSerialNumber")
         );
 
+        itemValue.setResizable(false);
+        itemSerialNumber.setResizable(false);
+        itemName.setResizable(false);
+
         editTableCol();
-        removeButton();
         textFieldListener();
+        searchItem();
+        removeItem();
+
 
     }
 
+    private void removeItem(){
+        removeButton.setOnAction(e -> {
+            InventoryModel selectedItem = table.getSelectionModel().getSelectedItem();
+            table.getItems().remove(selectedItem);
+        });
+    }
     private void editTableCol() {
         itemName.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -137,35 +148,6 @@ public class Controller implements Initializable {
         table.setEditable(true);
     }
 
-    private void removeButton() {
-        Callback<TableColumn<InventoryModel, String>, TableCell<InventoryModel, String>> cellFactory =
-                new Callback<>() {
-                    @Override
-                    public TableCell<InventoryModel, String> call(TableColumn<InventoryModel, String> param) {
-                        return new TableCell<InventoryModel, String>() {
-                            final Button btn = new Button("Remove");
-
-                            {
-                                btn.setOnAction(event -> table.getItems().remove(getIndex()));
-                            }
-
-                            @Override
-                            public void updateItem(String item, boolean empty) {
-                                super.updateItem(item, empty);
-                                if (empty) {
-                                    setGraphic(null);
-                                } else {
-                                    setGraphic(btn);
-                                }
-                                setText(null);
-                            }
-                        };
-
-                    }
-                };
-
-        itemActions.setCellFactory(cellFactory);
-    }
 
     private void textFieldListener() {
         addButton.setOnAction(event -> {
@@ -215,8 +197,44 @@ public class Controller implements Initializable {
 
                 alert.showAndWait();
             }
-
         });
 
     }
+
+    private void searchItem() {
+        FilteredList<InventoryModel> filteredData = new FilteredList<>(FXCollections.observableList(itemList));
+        table.setItems(filteredData);
+
+        table.setRowFactory(tableView -> {
+            TableRow<InventoryModel> row = new TableRow<>();
+            row.pseudoClassStateChanged(PseudoClass.getPseudoClass("highlighted"), false);
+            row.itemProperty().addListener((obs, oldOrder, newOrder) -> {
+                boolean assignClass = filteredData.contains(newOrder);
+                row.pseudoClassStateChanged(PseudoClass.getPseudoClass("highlighted"), assignClass);
+            });
+            return row;
+        });
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) ->
+                table.setItems(filterList(itemList, newValue.toLowerCase()))
+        );
+    }
+
+    private ObservableList<InventoryModel> filterList(List<InventoryModel> list, String searchText){
+        List<InventoryModel> filteredList = new ArrayList<>();
+
+        for (InventoryModel inventory : list){
+            if(searchFindsOrder(inventory, searchText)){
+                filteredList.add(inventory);
+            }
+        }
+        return FXCollections.observableList(filteredList);
+    }
+
+    private boolean searchFindsOrder(InventoryModel inventory, String searchText){
+        return (inventory.getItemName().toLowerCase().contains(searchText)) ||
+                (inventory.getItemSerialNumber().toLowerCase().contains(searchText));
+    }
+
+
 }
