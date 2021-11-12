@@ -12,7 +12,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +74,8 @@ public class Controller implements Initializable {
         String itemValue = itemValueTextField.getText();
         String itemSerial = itemSerialNumberTextField.getText();
 
-
-        if(itemList.contains(new InventoryModel(item, null, itemSerial))){
+        System.out.println(itemList.contains(new InventoryModel(item, itemValue, itemSerial)));
+        if(itemList.contains(new InventoryModel(item, itemValue, itemSerial))){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Item already exist!");
             alert.setContentText("An item name and serial number must be unique.");
@@ -86,9 +90,9 @@ public class Controller implements Initializable {
         }
 
 
-        itemNameTextField.setText(null);
-        itemValueTextField.setText(null);
-        itemSerialNumberTextField.setText(null);
+        //itemNameTextField.setText(null);
+        //itemValueTextField.setText(null);
+        //itemSerialNumberTextField.setText(null);
     }
 
     @FXML
@@ -106,6 +110,49 @@ public class Controller implements Initializable {
     @FXML
     void save(ActionEvent event) {
 
+        if(event.getSource() == saveButton){
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text", "*.txt"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML", "*.html"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+
+            fileChooser.setTitle("Save");
+
+            try{
+                StringBuilder sb = new StringBuilder();
+                try(FileWriter writer = new FileWriter(fileChooser.showSaveDialog(new Stage()))){
+                    String extension = fileChooser.selectedExtensionFilterProperty().get().getExtensions().get(0).substring(1);
+                    System.out.println(extension);
+
+                    if(extension.matches(".txt")){
+                        writer.write(String.format("%-15s %-45s %s\n",
+                                "Serial Number", "Item Name", "Value"));
+                        for(InventoryModel item : itemList){
+                            writer.write(String.format("%-15s %-45s %s",
+                                    item.getItemSerialNumber(), item.getItemName(), item.getValue()));
+                            writer.write("\n");
+                        }
+                    }
+
+                    if(extension.matches(".html")){
+
+                    }
+
+                    if(extension.matches(".json")){
+
+                    }
+
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                System.out.println("saved");
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
 

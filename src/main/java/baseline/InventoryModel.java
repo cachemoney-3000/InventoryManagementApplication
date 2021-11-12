@@ -49,16 +49,11 @@ public class InventoryModel {
         }
         InventoryModel inventory = (InventoryModel) o;
 
-        // persons.id.equals() leads to the default implementation in Object
-        // --> instead use this one.
-        // The Property classes have their own isEqualTo method
-        // with get(), you will get your simple boolean from the returned BooleanBinding
-        return inventory.itemSerialNumber.isEqualTo(itemSerialNumber).get() &&
-                inventory.itemName.isEqualTo(itemName).get();
+        return inventory.itemName.isEqualTo(itemName).get() || inventory.itemSerialNumber.isEqualTo(itemSerialNumber).get();
     }
 
     @Override
     public String toString() {
-        return itemName + "/" + itemSerialNumber + "/" + value;
+        return getItemName() + "/" + getItemSerialNumber() + "/" + getValue();
     }
 }
