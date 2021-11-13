@@ -72,41 +72,33 @@ public class Controller implements Initializable {
     @FXML
     private TextField searchField;
 
-    private final ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
+    private ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
 
 
     @FXML
-    void add(MouseEvent event) {
-        String item = itemNameTextField.getText();
-        String itemValue = itemValueTextField.getText();
-        String itemSerial = itemSerialNumberTextField.getText();
+    void updateInventoryAction(ActionEvent event) {
+        UpdateInventory inventory = new UpdateInventory();
 
-        System.out.println(itemList.contains(new InventoryModel(item, itemValue, itemSerial)));
-        if(itemList.contains(new InventoryModel(item, itemValue, itemSerial))){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Item already exist!");
-            alert.setContentText("An item name and serial number must be unique.");
+        if(event.getSource() == addButton){
+            String item = itemNameTextField.getText();
+            String itemValue = itemValueTextField.getText();
+            String itemSerial = itemSerialNumberTextField.getText();
 
-            alert.showAndWait();
-        }
+            if(!itemList.contains(new InventoryModel(item, itemValue, itemSerial))){
+                itemNameTextField.setText(null);
+                itemValueTextField.setText(null);
+                itemSerialNumberTextField.setText(null);
+            }
 
-        else{
-            itemList.add(new InventoryModel(item, itemValue, itemSerial));
+            itemList = inventory.addItem(item, itemValue, itemSerial, itemList);
             table.setItems(itemList);
-            System.out.println(itemList);
         }
 
-
-        //itemNameTextField.setText(null);
-        //itemValueTextField.setText(null);
-        //itemSerialNumberTextField.setText(null);
+        else if(event.getSource() == clearButton){
+            itemList = inventory.clearInventory(table, itemList);
+        }
     }
-
-    @FXML
-    void clearAll(MouseEvent event) {
-        table.getItems().clear();
-        System.out.println(itemList);
-    }
+    
 
     @FXML
     void load(ActionEvent event) throws FileNotFoundException {
@@ -438,6 +430,7 @@ public class Controller implements Initializable {
     private void removeItem(){
         removeButton.setOnAction(e -> {
             InventoryModel selectedItem = table.getSelectionModel().getSelectedItem();
+            System.out.println(selectedItem);
             table.getItems().remove(selectedItem);
         });
     }
