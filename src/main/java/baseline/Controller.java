@@ -17,8 +17,14 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class Controller implements Initializable {
 
@@ -101,6 +107,8 @@ public class Controller implements Initializable {
     @FXML
     void load(ActionEvent event) throws FileNotFoundException {
         if (event.getSource() == loadButton) {
+            table.getItems().clear();
+
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Load");
 
@@ -130,6 +138,50 @@ public class Controller implements Initializable {
                     itemList.addAll(inventory);
                     table.setItems(itemList);
                 }
+
+                if(extension.matches("html")){
+                    Document html = Jsoup.parse(file, "UTF-8", "");
+                    Elements rows = html.select("tr");
+                    int num = 0;
+
+                    for(Element row: rows){
+
+                        Elements columns = row.select("td");
+                        StringBuilder sb = new StringBuilder();
+
+                        int counter = 0;
+                        for (Element column: columns){
+                            sb.append(column.text());
+                            if(counter < 2){
+                                sb.append(".");
+                            }
+
+                            counter++;
+                        }
+
+                        if(num != 0){
+                            String[] separator = sb.toString().split("\\.");
+                            String serial = separator[0];
+                            String name = separator[1];
+                            String value = separator[2];
+
+                            InventoryModel newInventory = new InventoryModel(name, value, serial);
+                            inventory.add(newInventory);
+
+                        }
+                        num++;
+
+                    }
+                    itemList.addAll(inventory);
+                    table.setItems(itemList);
+
+                }
+
+                if (extension.matches("json")){
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
