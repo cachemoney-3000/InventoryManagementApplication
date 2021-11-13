@@ -15,12 +15,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Controller implements Initializable {
 
@@ -101,9 +99,39 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void load(ActionEvent event) {
-        // This will call the File object, so it can load a file and show it to the table
+    void load(ActionEvent event) throws FileNotFoundException {
+        if (event.getSource() == loadButton) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Load");
 
+            List<InventoryModel> inventory = new ArrayList<>();
+            java.io.File selectedFile = fileChooser.showOpenDialog(new Stage());
+            java.io.File file = new java.io.File(selectedFile.getAbsolutePath());
+
+            String fileName = selectedFile.toString();
+            String extension = fileName.split("\\.")[1];
+
+            try (Scanner reader = new Scanner(file)) {
+                if(extension.matches("txt")){
+                    reader.nextLine();
+                    while (reader.hasNextLine()) {
+
+                        String line = reader.nextLine();
+                        String[] separator = line.split("\t");
+
+                        String serial = separator[0];
+                        String name = separator[1];
+                        String value = separator[2];
+
+                        InventoryModel newInventory = new InventoryModel(name, value, serial);
+                        inventory.add(newInventory);
+                    }
+
+                    itemList.addAll(inventory);
+                    table.setItems(itemList);
+                }
+            }
+        }
     }
 
     @FXML
@@ -123,10 +151,10 @@ public class Controller implements Initializable {
                     System.out.println(extension);
 
                     if(extension.matches(".txt")){
-                        writer.write(String.format("%-15s %-45s %s\n",
+                        writer.write(String.format("%-10s \t%-35s \t%s\n",
                                 "Serial Number", "Item Name", "Value"));
                         for(InventoryModel item : itemList){
-                            writer.write(String.format("%-15s %-45s %s",
+                            writer.write(String.format("%-10s \t%-35s \t%s",
                                     item.getItemSerialNumber(), item.getItemName(), item.getValue()));
                             writer.write("\n");
                         }
@@ -169,16 +197,15 @@ public class Controller implements Initializable {
                     }
 
                     if(extension.matches(".json")){
-                        String json = "{\n" +
-                                "\t\"inventory\" : [\n";
+                        String json = "{\n\t\"inventory\" : [\n";
                         String json2 = "\t]\n}";
 
                         StringBuilder sb = new StringBuilder();
 
                         for(InventoryModel item : itemList){
-                            sb.append("\t\t{\"Serial Number\":" + "\"" + item.getItemSerialNumber() + "\"");
-                            sb.append(",\"Item Name\":" + "\"" + item.getItemName() + "\"");
-                            sb.append(",\"Value\":" + "\"" + item.getValue() + "\"}");
+                            sb.append("\t\t{\"Serial Number\":" + "\"").append(item.getItemSerialNumber()).append("\"");
+                            sb.append(",\"Item Name\":" + "\"").append(item.getItemName()).append("\"");
+                            sb.append(",\"Value\":" + "\"").append(item.getValue()).append("\"}");
 
                             sb.append(",\n");
                         }
