@@ -1,6 +1,9 @@
 package baseline;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -16,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -178,10 +182,32 @@ public class Controller implements Initializable {
                 }
 
                 if (extension.matches("json")){
+                    Object parser = JsonParser.parseReader(new FileReader(selectedFile));
+                    JsonObject jsonObject = (JsonObject) parser;
+
+                    JsonArray jsonArray = (JsonArray) jsonObject.get("inventory");
+                    Iterator<JsonElement> iterator = jsonArray.iterator();
+
+                    while(iterator.hasNext()){
+                        JsonObject inventoryObject = (JsonObject) iterator.next();
+                        String serial = inventoryObject.get("Serial Number").getAsString();
+                        String name = inventoryObject.get("Item Name").getAsString();
+                        String value = inventoryObject.get("Value").getAsString();
+
+                        InventoryModel newInventory = new InventoryModel(name, value, serial);
+                        inventory.add(newInventory);
+                    }
+
+                    itemList.addAll(inventory);
+                    table.setItems(itemList);
 
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid File");
+                alert.setContentText(e.toString());
+
+                alert.showAndWait();
             }
         }
     }
@@ -320,6 +346,15 @@ public class Controller implements Initializable {
 
                 alert.showAndWait();
             }
+
+            if(itemList.contains(new InventoryModel(newValue, null, null))){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Item already exist!");
+                alert.setContentText("An item name and serial number must be unique.");
+
+                alert.showAndWait();
+            }
+
             else{
                 event.getRowValue().setItemName(newValue);
             }
@@ -353,6 +388,8 @@ public class Controller implements Initializable {
                 alert.showAndWait();
             }
 
+
+
             itemValue.setVisible(false);
             itemValue.setVisible(true);
         });
@@ -368,6 +405,15 @@ public class Controller implements Initializable {
 
                 alert.showAndWait();
             }
+
+            if(itemList.contains(new InventoryModel(null, null, newValue))){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Item already exist!");
+                alert.setContentText("An item name and serial number must be unique.");
+
+                alert.showAndWait();
+            }
+
             else{
                 event.getRowValue().setItemName(newValue);
             }
