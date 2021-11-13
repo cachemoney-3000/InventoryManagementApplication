@@ -1,6 +1,6 @@
 package baseline;
 
-import javafx.beans.Observable;
+import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -170,7 +169,21 @@ public class Controller implements Initializable {
                     }
 
                     if(extension.matches(".json")){
+                        String json = "{\n" +
+                                "\t\"inventory\" : [\n";
+                        String json2 = "\t]\n}";
 
+                        StringBuilder sb = new StringBuilder();
+
+                        for(InventoryModel item : itemList){
+                            sb.append("\t\t{\"Serial Number\":" + "\"" + item.getItemSerialNumber() + "\"");
+                            sb.append(",\"Item Name\":" + "\"" + item.getItemName() + "\"");
+                            sb.append(",\"Value\":" + "\"" + item.getValue() + "\"}");
+
+                            sb.append(",\n");
+                        }
+                        sb.deleteCharAt(sb.lastIndexOf(",\n"));
+                        writer.write(json + sb + json2);
                     }
 
 
