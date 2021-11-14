@@ -320,7 +320,7 @@ public class Controller implements Initializable {
             // If the input passed all the requirements, it will now be added into the table
             if(newValue.matches("[0-9]+")){
                 System.out.println("Input valid");
-                event.getRowValue().setValue(newValue);
+                event.getRowValue().setValue("$"+newValue);
             }
 
             else{
