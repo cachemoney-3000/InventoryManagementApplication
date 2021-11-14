@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -53,7 +54,6 @@ public class Controller implements Initializable {
     @FXML
     private MenuItem saveButton;
 
-
     @FXML
     private Button removeButton;
 
@@ -62,27 +62,31 @@ public class Controller implements Initializable {
 
     private ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
 
-
     @FXML
-    void updateInventoryAction(ActionEvent event) {
-        UpdateInventory inventory = new UpdateInventory();
-
+    void addItem(MouseEvent event) {
         if(event.getSource() == addButton){
+            UpdateInventory inventory = new UpdateInventory();
+
             String item = itemNameTextField.getText();
             String itemValue = itemValueTextField.getText();
             String itemSerial = itemSerialNumberTextField.getText();
 
             if(!itemList.contains(new InventoryModel(item, itemValue, itemSerial))){
-                itemNameTextField.setText(null);
-                itemValueTextField.setText(null);
-                itemSerialNumberTextField.setText(null);
+                itemNameTextField.setText("");
+                itemValueTextField.setText("");
+                itemSerialNumberTextField.setText("");
             }
 
             itemList = inventory.addItem(item, itemValue, itemSerial, itemList);
             table.setItems(itemList);
-        }
 
-        else if(event.getSource() == clearButton){
+        }
+    }
+
+    @FXML
+    void clearItems(MouseEvent event) {
+        if(event.getSource() == clearButton){
+            UpdateInventory inventory = new UpdateInventory();
             table.getItems().clear();
             itemList = inventory.clearInventory(itemList);
         }
@@ -124,8 +128,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void save(ActionEvent event) {
-
+    void save(ActionEvent event) throws IOException {
         if(event.getSource() == saveButton){
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text", "*.txt"));
@@ -133,92 +136,51 @@ public class Controller implements Initializable {
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
 
             fileChooser.setTitle("Save");
+            java.io.File fileName = fileChooser.showSaveDialog(new Stage());
+            String extension = fileChooser.selectedExtensionFilterProperty().get().getExtensions().get(0).substring(1);
 
-            try{
-                try(FileWriter writer = new FileWriter(fileChooser.showSaveDialog(new Stage()))){
-                    String extension = fileChooser.selectedExtensionFilterProperty().get().getExtensions().get(0).substring(1);
-                    System.out.println(extension);
+            SaveData save = new SaveData();
 
-                    if(extension.matches(".txt")){
-                        writer.write(String.format("%-10s \t%-35s \t%s\n",
-                                "Serial Number", "Item Name", "Value"));
-                        for(InventoryModel item : itemList){
-                            writer.write(String.format("%-10s \t%-35s \t%s",
-                                    item.getItemSerialNumber(), item.getItemName(), item.getValue()));
-                            writer.write("\n");
-                        }
-                    }
+            if(extension.matches(".txt")){
+                System.out.println("\n");
+                String result = save.saveTxt(fileName, itemList);
+                // This will just show what is printed into the file
+                System.out.println(result);
+            }
 
-                    if(extension.matches(".html")){
-                        String html1 = """
-                                <!DOCTYPE html>
-                                <html>
-                                <style>
-                                table, th, td {
-                                  border:1px solid black;
-                                }
-                                </style>
-                                <body>
+            if(extension.matches(".html")){
+                System.out.println("\n");
+                String result = save.saveHtml(fileName, itemList);
+                // This will just show what is printed into the file
+                System.out.println(result);
+            }
 
-                                <table style="width:100%">
-                                    <tr>
-                                        <th>Serial Number</th>
-                                        <th>Item Name</th>
-                                        <th>Value</th>
-                                    </tr>""";
-                        String html2 = """
-                                </table>
-
-                                </body>
-                                </html>""";
-
-                        StringBuilder data = new StringBuilder();
-
-                        for(InventoryModel item : itemList) {
-                            data.append("<tr>\n<td>").append(item.getItemSerialNumber()).
-                                    append("</td>\n").append("<td>").append(item.getItemName()).
-                                    append("</td>\n").append("<td>").append(item.getValue()).append("</td>\n");
-                        }
-
-                        writer.write(html1 + data + html2);
-
-
-                    }
-
-                    if(extension.matches(".json")){
-                        String json = "{\n\t\"inventory\" : [\n";
-                        String json2 = "\t]\n}";
-
-                        StringBuilder sb = new StringBuilder();
-
-                        for(InventoryModel item : itemList){
-                            sb.append("\t\t{\"Serial Number\":" + "\"").append(item.getItemSerialNumber()).append("\"");
-                            sb.append(",\"Item Name\":" + "\"").append(item.getItemName()).append("\"");
-                            sb.append(",\"Value\":" + "\"").append(item.getValue()).append("\"}");
-
-                            sb.append(",\n");
-                        }
-                        sb.deleteCharAt(sb.lastIndexOf(",\n"));
-                        writer.write(json + sb + json2);
-                    }
-
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                System.out.println("saved");
-
-            }catch (Exception e){
-                e.printStackTrace();
+            if(extension.matches(".json")){
+                System.out.println("\n");
+                String result = save.saveJson(fileName, itemList);
+                // This will just show what is printed into the file
+                System.out.println(result);
             }
         }
     }
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        itemValue.setResizable(false);
+        itemSerialNumber.setResizable(false);
+        itemName.setResizable(false);
+
+        cellPropertyValue();
+        editTableContents();
+        textFieldListener();
+        searchItem();
+        removeItem();
+        warningHandler();
+
+    }
+
+    private void cellPropertyValue(){
         itemName.setCellValueFactory(
                 new PropertyValueFactory<>("itemName")
         );
@@ -228,24 +190,17 @@ public class Controller implements Initializable {
         itemSerialNumber.setCellValueFactory(
                 new PropertyValueFactory<>("itemSerialNumber")
         );
-
-        itemValue.setResizable(false);
-        itemSerialNumber.setResizable(false);
-        itemName.setResizable(false);
-
-        editTableCol();
-        textFieldListener();
-        searchItem();
-        removeItem();
-        editableTable();
-
     }
 
-
-
-    private void editableTable(){
+    private void warningHandler(){
         String invalid = "Invalid Value!";
 
+        nameTextFieldWarnings(invalid);
+        valueTextFieldWarnings(invalid);
+        serialTextFieldWarnings(invalid);
+    }
+
+    private void nameTextFieldWarnings(String invalid){
         itemName.setOnEditCommit(event -> {
             String newValue = event.getNewValue();
 
@@ -273,7 +228,9 @@ public class Controller implements Initializable {
             itemName.setVisible(false);
             itemName.setVisible(true);
         });
+    }
 
+    private void valueTextFieldWarnings(String invalid){
         itemValue.setOnEditCommit(event -> {
             String newValue = event.getNewValue();
 
@@ -299,13 +256,12 @@ public class Controller implements Initializable {
                 alert.showAndWait();
             }
 
-
-
             itemValue.setVisible(false);
             itemValue.setVisible(true);
         });
+    }
 
-
+    private void serialTextFieldWarnings(String invalid){
         itemSerialNumber.setOnEditCommit(event -> {
             String newValue = event.getNewValue();
 
@@ -332,6 +288,7 @@ public class Controller implements Initializable {
             if(newValue.matches("[A-Za-z]+-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}")){
                 System.out.println("Serial Valid");
             }
+
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
@@ -354,7 +311,7 @@ public class Controller implements Initializable {
         });
     }
 
-    private void editTableCol() {
+    private void editTableContents() {
         itemName.setCellFactory(TextFieldTableCell.forTableColumn());
 
         itemName.setOnEditCommit(e ->
@@ -378,6 +335,7 @@ public class Controller implements Initializable {
     private void textFieldListener() {
         addButton.setOnAction(event -> {
             String invalid = "Invalid Value!";
+
             if(Objects.equals(itemNameTextField.getText(), "") ||
                     itemNameTextField.getText().length() < 2 || itemNameTextField.getText().length() > 256){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -386,6 +344,7 @@ public class Controller implements Initializable {
 
                 alert.showAndWait();
             }
+
             else if (Objects.equals(itemValueTextField.getText(), "")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
@@ -393,6 +352,7 @@ public class Controller implements Initializable {
 
                 alert.showAndWait();
             }
+
             else if (Objects.equals(itemSerialNumberTextField.getText(), "")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
@@ -416,6 +376,7 @@ public class Controller implements Initializable {
             if(itemSerialNumberTextField.getText().matches("[A-Za-z]+-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}")){
                 System.out.println("Serial Valid.");
             }
+            
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);

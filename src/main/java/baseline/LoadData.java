@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LoadData {
-    public ObservableList<InventoryModel> loadTxt(java.io.File file , List<InventoryModel> inventory,
+    public ObservableList<InventoryModel> loadTxt(java.io.File file, List<InventoryModel> inventory,
                                                   ObservableList<InventoryModel> itemList) throws FileNotFoundException {
         try (Scanner reader = new Scanner(file)) {
             reader.nextLine();
@@ -71,10 +71,9 @@ public class LoadData {
 
             }
             num++;
-
-            itemList.addAll(inventory);
-
         }
+        itemList.addAll(inventory);
+
         return itemList;
     }
 

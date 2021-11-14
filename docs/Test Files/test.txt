@@ -1,0 +1,5 @@
+Serial Number 	Item Name                           	Value
+A-123-123-124 	XBOX                                	23
+A-123-123-125 	Playstation                         	53
+A-123-123-126 	Nintendo                            	500
+A-123-123-127 	PC                                  	5000

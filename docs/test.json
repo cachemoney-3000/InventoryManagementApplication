@@ -1,0 +1,7 @@
+{
+	"inventory" : [
+		{"Serial Number":"A-123-123-123","Item Name":"XBOX","Value":"25"},
+		{"Serial Number":"A-123-123-124","Item Name":"XBOX 360","Value":"25"},
+		{"Serial Number":"A-123-123-125","Item Name":"XBOX S","Value":"25"}
+	]
+}
