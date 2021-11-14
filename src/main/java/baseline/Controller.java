@@ -76,11 +76,18 @@ public class Controller implements Initializable {
         itemSerialNumber.setResizable(false);
         itemName.setResizable(false);
 
+        // This will determine which data should be stored into what column
         cellPropertyValue();
+        // This will allow the table to be editable when double-clicked by the user
         editTableContents();
+        // This will check if the user input is valid, if it is not valid an error will appear
         textFieldListener();
+        // This will be used for searching an item
         searchItem();
+        // This will remove an item from the list, if the remove button is clicked
         removeItem();
+        // Whenever an existing data was edited by the user, this will check if It's valid or not, if the input is invalid
+        // it will show an error
         warningHandler();
     }
 
@@ -127,7 +134,9 @@ public class Controller implements Initializable {
 
     @FXML
     void load(ActionEvent event) throws IOException {
+        // This method is for loading a file and showing it into the table
         if (event.getSource() == loadButton) {
+            // This will clear all the inputs from the table
             table.getItems().clear();
 
             FileChooser fileChooser = new FileChooser();
@@ -137,23 +146,34 @@ public class Controller implements Initializable {
             java.io.File selectedFile = fileChooser.showOpenDialog(new Stage());
             java.io.File file = new java.io.File(selectedFile.getAbsolutePath());
 
+            // This stores the info about the file, its path and name
             String fileName = selectedFile.toString();
+            // This will only store the extension of the file
             String extension = fileName.split("\\.")[1];
 
             LoadData load = new LoadData();
 
+            // If the file extension is in "txt"
             if(extension.matches("txt")){
+                // It will load the text file, and store the data into the itemList
                 itemList = load.loadTxt(file, inventory, itemList);
+                // It will then show it on the table
                 table.setItems(itemList);
             }
 
+            // If the file extension is in "html
             if(extension.matches("html")){
+                // It will load the html file, and scan the data so it can store it into the itemList
                 itemList = load.loadHtml(file, inventory, itemList);
+                // It will then show it on the table
                 table.setItems(itemList);
             }
 
+            // If the file extension is in "json"
             if(extension.matches("json")){
+                // This will parse the file, and store the data into the itemList
                 itemList = load.loadJson(file, inventory, itemList);
+                // This will show the data from the itemList into the table
                 table.setItems(itemList);
             }
         }
@@ -399,10 +419,12 @@ public class Controller implements Initializable {
     }
 
 
+    // This method will check the inputs on the text fields whenever the user clicked the add button
     private void textFieldListener() {
         addButton.setOnAction(event -> {
             String invalid = "Invalid Value!";
 
+            // If the item name input is empty or less than 2 or more than 256 characters, it will show this error
             if(Objects.equals(itemNameTextField.getText(), "") ||
                     itemNameTextField.getText().length() < 2 || itemNameTextField.getText().length() > 256){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -412,6 +434,7 @@ public class Controller implements Initializable {
                 alert.showAndWait();
             }
 
+            // If the user did not have any input for the value, it wil show this error
             else if (Objects.equals(itemValueTextField.getText(), "")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
@@ -420,6 +443,7 @@ public class Controller implements Initializable {
                 alert.showAndWait();
             }
 
+            // If the serial number text field is empty, it will show an error
             else if (Objects.equals(itemSerialNumberTextField.getText(), "")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
@@ -428,10 +452,12 @@ public class Controller implements Initializable {
                 alert.showAndWait();
             }
 
+            // If the input value is in digits and more than or equal to 0, it will just print "input valid"
             if(itemValueTextField.getText().matches("[0-9]+")){
                 System.out.println("Input valid.");
             }
 
+            // If the user did not put a digit more than or equal to 0 in the value text field, it will show this error
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
@@ -440,10 +466,12 @@ public class Controller implements Initializable {
                 alert.showAndWait();
             }
 
+            // If the user followed the serial number format, it will not have an error
             if(itemSerialNumberTextField.getText().matches("[A-Za-z]+-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}")){
                 System.out.println("Serial Valid.");
             }
 
+            // But if the user did not follow the format for serial number, an error will appear
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(invalid);
@@ -455,6 +483,7 @@ public class Controller implements Initializable {
 
     }
 
+    // This method is for filtering and searching a data from the list
     private void searchItem() {
         FilteredList<InventoryModel> filteredData = new FilteredList<>(FXCollections.observableList(itemList));
         table.setItems(filteredData);
@@ -469,14 +498,17 @@ public class Controller implements Initializable {
             return row;
         });
 
+        // Whenever the search text field is changed, this action will be activated, and will call the helper method
         searchField.textProperty().addListener((observable, oldValue, newValue) ->
                 table.setItems(filterList(itemList, newValue.toLowerCase()))
         );
     }
 
+    // This method will store all the matching data into an observable list
     private ObservableList<InventoryModel> filterList(List<InventoryModel> list, String searchText){
         List<InventoryModel> filteredList = new ArrayList<>();
 
+        // It will loop through all the data that is already inputted and search for any data that matched
         for (InventoryModel inventory : list){
             if(searchFindsOrder(inventory, searchText)){
                 filteredList.add(inventory);
@@ -485,6 +517,7 @@ public class Controller implements Initializable {
         return FXCollections.observableList(filteredList);
     }
 
+    // This is a helper method for filter list, it will just return true or false, when finding an item from the list
     private boolean searchFindsOrder(InventoryModel inventory, String searchText){
         return (inventory.getItemName().toLowerCase().contains(searchText)) ||
                 (inventory.getItemSerialNumber().toLowerCase().contains(searchText));
