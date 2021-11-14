@@ -95,10 +95,11 @@ public class Controller implements Initializable {
         }
 
         else if(event.getSource() == clearButton){
-            itemList = inventory.clearInventory(table, itemList);
+            table.getItems().clear();
+            itemList = inventory.clearInventory(itemList);
         }
     }
-    
+
 
     @FXML
     void load(ActionEvent event) throws FileNotFoundException {

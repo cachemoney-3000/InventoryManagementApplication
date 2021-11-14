@@ -24,7 +24,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'baseline'
-    mainClass = 'baseline.InventoryManagementApplication'
+    mainClass = 'baseline.ToDoListApplication'
 }
 
 javafx {
@@ -32,20 +32,23 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
-dependencies {
-    implementation 'junit:junit:4.13.1'
-    implementation 'top.jfunc.json:Json-Gson:1.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
-}
+
+repositories { mavenCentral() }
 
 dependencies {
 
+    implementation 'org.testng:testng:7.1.0'
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'com.google.code.gson:gson:2.8.9'
 }
 
+dependencies {
+    implementation 'junit:junit:4.13.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+}
 
 test {
     useJUnitPlatform()
 }
+

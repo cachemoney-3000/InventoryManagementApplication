@@ -6,7 +6,7 @@ import javafx.scene.control.TableView;
 
 public class UpdateInventory {
     public ObservableList<InventoryModel> addItem(String item, String itemValue, String itemSerial,
-                        ObservableList<InventoryModel> itemList){
+                                                  ObservableList<InventoryModel> itemList){
 
         if(itemList.contains(new InventoryModel(item, itemValue, itemSerial))){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -22,9 +22,8 @@ public class UpdateInventory {
         return itemList;
     }
 
-    public ObservableList<InventoryModel> clearInventory(TableView<InventoryModel> table, ObservableList<InventoryModel> itemList){
-        table.getItems().clear();
-        System.out.println(itemList);
+    public ObservableList<InventoryModel> clearInventory(ObservableList<InventoryModel> itemList){
+        itemList.clear();
         return itemList;
     }
 
