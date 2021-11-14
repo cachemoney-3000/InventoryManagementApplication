@@ -1,9 +1,5 @@
 package baseline;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,21 +10,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class Controller implements Initializable {
 
@@ -102,7 +90,7 @@ public class Controller implements Initializable {
 
 
     @FXML
-    void load(ActionEvent event) throws FileNotFoundException {
+    void load(ActionEvent event) throws IOException {
         if (event.getSource() == loadButton) {
             table.getItems().clear();
 
@@ -116,91 +104,21 @@ public class Controller implements Initializable {
             String fileName = selectedFile.toString();
             String extension = fileName.split("\\.")[1];
 
-            try (Scanner reader = new Scanner(file)) {
-                if(extension.matches("txt")){
-                    reader.nextLine();
-                    while (reader.hasNextLine()) {
+            LoadData load = new LoadData();
 
-                        String line = reader.nextLine();
-                        String[] separator = line.split("\t");
+            if(extension.matches("txt")){
+                itemList = load.loadTxt(file, inventory, itemList);
+                table.setItems(itemList);
+            }
 
-                        String serial = separator[0];
-                        String name = separator[1];
-                        String value = separator[2];
+            if(extension.matches("html")){
+                itemList = load.loadHtml(file, inventory, itemList);
+                table.setItems(itemList);
+            }
 
-                        InventoryModel newInventory = new InventoryModel(name, value, serial);
-                        inventory.add(newInventory);
-                    }
-
-                    itemList.addAll(inventory);
-                    table.setItems(itemList);
-                }
-
-                if(extension.matches("html")){
-                    Document html = Jsoup.parse(file, "UTF-8", "");
-                    Elements rows = html.select("tr");
-                    int num = 0;
-
-                    for(Element row: rows){
-
-                        Elements columns = row.select("td");
-                        StringBuilder sb = new StringBuilder();
-
-                        int counter = 0;
-                        for (Element column: columns){
-                            sb.append(column.text());
-                            if(counter < 2){
-                                sb.append(".");
-                            }
-
-                            counter++;
-                        }
-
-                        if(num != 0){
-                            String[] separator = sb.toString().split("\\.");
-                            String serial = separator[0];
-                            String name = separator[1];
-                            String value = separator[2];
-
-                            InventoryModel newInventory = new InventoryModel(name, value, serial);
-                            inventory.add(newInventory);
-
-                        }
-                        num++;
-
-                    }
-                    itemList.addAll(inventory);
-                    table.setItems(itemList);
-
-                }
-
-                if (extension.matches("json")){
-                    Object parser = JsonParser.parseReader(new FileReader(selectedFile));
-                    JsonObject jsonObject = (JsonObject) parser;
-
-                    JsonArray jsonArray = (JsonArray) jsonObject.get("inventory");
-                    Iterator<JsonElement> iterator = jsonArray.iterator();
-
-                    while(iterator.hasNext()){
-                        JsonObject inventoryObject = (JsonObject) iterator.next();
-                        String serial = inventoryObject.get("Serial Number").getAsString();
-                        String name = inventoryObject.get("Item Name").getAsString();
-                        String value = inventoryObject.get("Value").getAsString();
-
-                        InventoryModel newInventory = new InventoryModel(name, value, serial);
-                        inventory.add(newInventory);
-                    }
-
-                    itemList.addAll(inventory);
-                    table.setItems(itemList);
-
-                }
-            } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Invalid File");
-                alert.setContentText(e.toString());
-
-                alert.showAndWait();
+            if(extension.matches("json")){
+                itemList = load.loadJson(file, inventory, itemList);
+                table.setItems(itemList);
             }
         }
     }
