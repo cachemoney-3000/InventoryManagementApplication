@@ -181,34 +181,44 @@ public class Controller implements Initializable {
 
     @FXML
     void save(ActionEvent event) throws IOException {
+        // This method is for saving the table data into a file
         if(event.getSource() == saveButton){
             FileChooser fileChooser = new FileChooser();
+            // Told file chooser which file extensions can I save a file
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text", "*.txt"));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML", "*.html"));
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
 
             fileChooser.setTitle("Save");
+            // This will store the file name and its path
             java.io.File fileName = fileChooser.showSaveDialog(new Stage());
+            // This will store the extension of the file that is chosen by the user
             String extension = fileChooser.selectedExtensionFilterProperty().get().getExtensions().get(0).substring(1);
 
             SaveData save = new SaveData();
 
+            // If the extension matches "txt"
             if(extension.matches(".txt")){
                 System.out.println("\n");
+                // It will save all the data from the table into a text file
                 String result = save.saveTxt(fileName, itemList);
                 // This will just show what is printed into the file
                 System.out.println(result);
             }
 
+            // If the extension matches html
             if(extension.matches(".html")){
                 System.out.println("\n");
+                // It will save all the data from the table into a html file
                 String result = save.saveHtml(fileName, itemList);
                 // This will just show what is printed into the file
                 System.out.println(result);
             }
 
+            // If the extension matches "json"
             if(extension.matches(".json")){
                 System.out.println("\n");
+                // It will save all the data from the table into a json file
                 String result = save.saveJson(fileName, itemList);
                 // This will just show what is printed into the file
                 System.out.println(result);
@@ -236,6 +246,7 @@ public class Controller implements Initializable {
         // This method is for showing all the warnings if the user input doesn't satisfy a requirement
         String invalid = "Invalid Value!";
 
+        // These methods, will handle which warnings to show the user, or not
         editItemNameWarnings(invalid);
         editValueWarnings(invalid);
         serialTextFieldWarnings(invalid);

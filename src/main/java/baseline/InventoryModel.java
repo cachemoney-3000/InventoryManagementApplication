@@ -1,11 +1,9 @@
 package baseline;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Button;
-
-import java.util.Objects;
 
 public class InventoryModel {
+    // This method will be used to handle the data that was inputted by the user
     SimpleStringProperty itemName;
     SimpleStringProperty value;
     SimpleStringProperty itemSerialNumber;
@@ -41,6 +39,8 @@ public class InventoryModel {
         this.itemSerialNumber = new SimpleStringProperty(serialNumber);
     }
 
+    // This will check if the item name or the item serial number already exist in the list
+    // This will return true if it already exists, false if not
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
@@ -52,6 +52,7 @@ public class InventoryModel {
         return inventory.itemName.isEqualTo(itemName).get() || inventory.itemSerialNumber.isEqualTo(itemSerialNumber).get();
     }
 
+    // This will just convert the data address into a string, so it will be readable when adding it into the observable list
     @Override
     public String toString() {
         return getItemName() + "/" + getItemSerialNumber() + "/" + getValue();
