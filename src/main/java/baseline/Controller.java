@@ -145,7 +145,7 @@ public class Controller implements Initializable {
         // This method is for loading a file and showing it into the table
         if (event.getSource() == loadButton) {
             // This will clear all the inputs from the table
-
+            table.getItems().clear();
 
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Load");
@@ -184,8 +184,6 @@ public class Controller implements Initializable {
                 // This will show the data from the itemList into the table
                 table.setItems(itemList);
             }
-            table.getItems().clear();
-
         }
     }
 
