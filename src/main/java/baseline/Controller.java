@@ -90,7 +90,8 @@ public class Controller implements Initializable {
         // it will show an error
         warningHandler();
 
-        
+        // This will help sort the value either ascending or descending order
+        itemValue.setComparator(new CustomComparator());
     }
 
     @FXML
