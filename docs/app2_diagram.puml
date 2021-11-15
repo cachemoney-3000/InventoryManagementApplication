@@ -6,33 +6,99 @@ class InventoryManagementApplication{
     'This will launch the program
     +main()
 }
-class File{
-    +save()
-    +saveHTML()
-    +saveTXT()
-    +saveTSV()
-    +load()
-    +loadHTML()
-    +loadTXT()
-    +loadTSV()
-}
+
 class InventoryModel{
     'getters
     +getItemName()
     +getItemValue()
     +getItemSerialNumber()
+
+    'Method that will help look if an item already exists
+    +equals()
+    + toString()
 }
 class Controller{
-    add()
-    clear()
-    load()
-    save()
-    search()
+    'Attributes
+    -Button addButton
+    -Button clearButton
+    -TextField itemNameTextField
+    -TableColumn<InventoryModel, String> itemSerialNumber
+    -TableColumn<InventoryModel, String> itemValue
+    -TableColumn<InventoryModel, String> itemName
+    -TableView<InventoryModel> table
+    -TextField itemSerialNumberTextField
+    -TextField itemValueTextField
+    -MenuItem loadButton
+    -MenuItem saveButton
+    -Button removeButton
+    -TextField searchField
+    -ObservableList<InventoryModel> itemList
+
+    'Method:
+    'for initializing the table
+    -initialize()
+    'for adding an item
+    -addItem()
+    'for clearing all the item in the table
+    -clearItem()
+    'for loading a file
+    -load()
+    'for saving a file to either txt, html, or json
+    -save()
+    'for putting values in the correct column
+    -cellPropertyValue()
+    'for showing all the warnings:
+    -warningHandler()
+    -editItemNameWarnings()
+    -editValueWarnings()
+    -serialTextFieldWarnings()
+    'for removing an item in the table
+    -removeItem()
+    'for making the contents in the table editable
+    -editTableContents()
+    -textFieldListener()
+    'for searching an item
+    -searchItem()
+}
+
+'Helper class for loading a data and showing it into the table
+class LoadData{
+    'Methods:
+    +loadTxt()
+    +loadHtml()
+    +loadJson()
+}
+
+'Helper class for searching an item and showing it into the table
+class Search{
+    'Methods:
+    +filterList()
+    -searchFindsOrder()
+}
+
+'Helper class for updating the table, either by adding or clearing an item
+class UpdateInventory{
+    'Methods:
+    +addItem()
+    +clearInventory()
+}
+
+'Helper class for saving the item from the table into a file
+class SaveData{
+    'Methods:
+    +saveTxt()
+    +saveHtml()
+    +saveJson()
 }
 
 InventoryManagementApplication <|-- javafx.application.Application
 InventoryManagementApplication *-- Controller
-Controller *-- File
+UpdateInventory *-- InventoryModel
 Controller *-- InventoryModel
-
+LoadData *-- InventoryModel
+Search *-- InventoryModel
+Controller *-- LoadData
+Controller *- UpdateInventory
+Controller *-- SaveData
+Controller *-- Search
 @enduml

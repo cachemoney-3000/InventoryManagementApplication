@@ -44,10 +44,9 @@ public class InventoryModel {
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
-        if (!(o instanceof InventoryModel)) {
+        if (!(o instanceof InventoryModel inventory)) {
             return false;
         }
-        InventoryModel inventory = (InventoryModel) o;
 
         return inventory.itemName.isEqualTo(itemName).get() || inventory.itemSerialNumber.isEqualTo(itemSerialNumber).get();
     }

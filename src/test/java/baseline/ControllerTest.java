@@ -249,6 +249,23 @@ class ControllerTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void searchItemTest(){
+        Search search = new Search();
+
+        List<InventoryModel> itemList = FXCollections.observableArrayList();
+        itemList.add(new InventoryModel("XBOX", "25", "A-123-123-123"));
+        itemList.add(new InventoryModel("XBOX 360", "25", "A-123-123-124"));
+        itemList.add(new InventoryModel("XBOX S", "25", "A-123-123-125"));
+
+        String find = "Playstation";
+        itemList = search.filterList(itemList, find);
+
+        String actual = itemList.toString();
+        String expected = "[]"; // Empty list since it is not found
+
+        assertEquals(expected, actual);
+    }
 
 
 }
