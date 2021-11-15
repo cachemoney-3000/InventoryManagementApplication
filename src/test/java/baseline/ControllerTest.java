@@ -1,10 +1,12 @@
+/*
+ * UCF COP3330 Fall 2021 Application Assignment 2 Solution
+ * Copyright 2021 Joshua Samontanez
+ */
+
 package baseline;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -12,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ControllerTest {
 

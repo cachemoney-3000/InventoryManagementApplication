@@ -1,0 +1,4 @@
+Serial Number 	Item Name                           	Value
+A-123-123-123 	XBOX                                	25
+A-123-123-124 	XBOX 360                            	25
+A-123-123-125 	XBOX S                              	25

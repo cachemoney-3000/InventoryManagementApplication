@@ -1,3 +1,8 @@
+/*
+ * UCF COP3330 Fall 2021 Application Assignment 2 Solution
+ * Copyright 2021 Joshua Samontanez
+ */
+
 package baseline;
 
 import javafx.collections.FXCollections;
@@ -102,7 +107,7 @@ public class Controller implements Initializable {
 
             // These will convert all the inputs from the all the text fields into a string
             String item = itemNameTextField.getText();
-            String itemValue = "$" + itemValueTextField.getText();
+            String itemValue = itemValueTextField.getText();
             String itemSerial = itemSerialNumberTextField.getText();
 
             // If there are no duplicate names or serial number, it will remove the inputs from all the text field
@@ -140,7 +145,7 @@ public class Controller implements Initializable {
         // This method is for loading a file and showing it into the table
         if (event.getSource() == loadButton) {
             // This will clear all the inputs from the table
-            table.getItems().clear();
+
 
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Load");
@@ -179,6 +184,8 @@ public class Controller implements Initializable {
                 // This will show the data from the itemList into the table
                 table.setItems(itemList);
             }
+            table.getItems().clear();
+
         }
     }
 
@@ -323,7 +330,7 @@ public class Controller implements Initializable {
             // If the input passed all the requirements, it will now be added into the table
             if(newValue.matches("[0-9]+")){
                 System.out.println("Input valid");
-                event.getRowValue().setValue("$"+newValue);
+                event.getRowValue().setValue(newValue);
             }
 
             else{
@@ -373,7 +380,7 @@ public class Controller implements Initializable {
 
             // If the input passes all the requirements, it will update the table
             else{
-                event.getRowValue().setItemName(newValue);
+                event.getRowValue().setItemSerialNumber(newValue);
             }
 
             if(newValue.matches("[A-Za-z]+-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}-[A-Za-z0-9]{1,3}")){
@@ -400,6 +407,7 @@ public class Controller implements Initializable {
         removeButton.setOnAction(e -> {
             InventoryModel selectedItem = table.getSelectionModel().getSelectedItem();
             table.getItems().remove(selectedItem);
+            itemList.remove(selectedItem);
         });
     }
 

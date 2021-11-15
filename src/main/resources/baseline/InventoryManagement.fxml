@@ -67,10 +67,10 @@
                   </Button>
                </children>
             </HBox>
-            <TableView fx:id="table" prefHeight="585.0" prefWidth="800.0" styleClass="table-row-cell" stylesheets="@tableViewStyle.css">
+            <TableView fx:id="table" prefHeight="585.0" prefWidth="800.0" style="-fx-fixed-cell-size: 30;" styleClass="table-row-cell" stylesheets="@tableViewStyle.css">
               <columns>
                   <TableColumn fx:id="itemName" prefWidth="341.60003662109375" text="Item Name" />
-                <TableColumn fx:id="itemValue" minWidth="0.0" prefWidth="192.0" text="Value" />
+                <TableColumn fx:id="itemValue" minWidth="0.0" prefWidth="192.0" text="Value (USD)" />
                 <TableColumn fx:id="itemSerialNumber" prefWidth="264.79998779296875" text="Serial Number" />
               </columns>
             </TableView>

@@ -1,3 +1,8 @@
+/*
+ * UCF COP3330 Fall 2021 Application Assignment 2 Solution
+ * Copyright 2021 Joshua Samontanez
+ */
+
 package baseline;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -54,6 +59,6 @@ public class InventoryModel {
     // This will just convert the data address into a string, so it will be readable when adding it into the observable list
     @Override
     public String toString() {
-        return getItemName() + "/" + Double.parseDouble(getItemSerialNumber()) + "/" + getValue();
+        return getItemName() + "/" + getItemSerialNumber() + "/" + getValue();
     }
 }
