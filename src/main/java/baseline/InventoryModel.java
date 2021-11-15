@@ -54,6 +54,6 @@ public class InventoryModel {
     // This will just convert the data address into a string, so it will be readable when adding it into the observable list
     @Override
     public String toString() {
-        return getItemName() + "/" + getItemSerialNumber() + "/" + getValue();
+        return getItemName() + "/" + Double.parseDouble(getItemSerialNumber()) + "/" + getValue();
     }
 }

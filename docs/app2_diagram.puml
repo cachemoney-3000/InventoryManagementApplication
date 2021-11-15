@@ -17,6 +17,7 @@ class InventoryModel{
     +equals()
     + toString()
 }
+
 class Controller{
     'Attributes
     -Button addButton
@@ -101,4 +102,5 @@ Controller *-- LoadData
 Controller *- UpdateInventory
 Controller *-- SaveData
 Controller *-- Search
+
 @enduml

@@ -89,6 +89,8 @@ public class Controller implements Initializable {
         // Whenever an existing data was edited by the user, this will check if It's valid or not, if the input is invalid
         // it will show an error
         warningHandler();
+
+        
     }
 
     @FXML
