@@ -85,7 +85,7 @@ class ControllerTest {
         List<InventoryModel> inventory = new ArrayList<>();
         ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
 
-        java.io.File file = new java.io.File("C:\\Users\\samon\\Desktop\\New folder (3)\\samontanez-app2\\docs\\Test Files\\test.txt");
+        java.io.File file = new java.io.File("docs/Test Files/test.txt");
 
         /*
         Input inside the file:
@@ -112,7 +112,7 @@ class ControllerTest {
         List<InventoryModel> inventory = new ArrayList<>();
         ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
 
-        java.io.File file = new java.io.File("C:\\Users\\samon\\Desktop\\New folder (3)\\samontanez-app2\\docs\\Test Files\\new.html");
+        java.io.File file = new java.io.File("docs/Test Files/new.html");
         LoadData load = new LoadData();
         itemList = load.loadHtml(file, inventory, itemList);
 
@@ -139,7 +139,7 @@ class ControllerTest {
         List<InventoryModel> inventory = new ArrayList<>();
         ObservableList<InventoryModel> itemList = FXCollections.observableArrayList();
 
-        java.io.File file = new java.io.File("C:\\Users\\samon\\Desktop\\New folder (3)\\samontanez-app2\\docs\\Test Files\\test.json");
+        java.io.File file = new java.io.File("docs/Test Files/test.json");
         LoadData load = new LoadData();
         itemList = load.loadJson(file, inventory, itemList);
 
