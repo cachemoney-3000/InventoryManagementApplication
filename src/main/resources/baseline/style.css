@@ -25,17 +25,17 @@
 }
 
 .button3:hover {
-    	-fx-background-color:  #ae0112;
+    	-fx-background-color:  #9d0110;
     	-fx-text-fill: #e6e6e6;
 }
 
 .button3:pressed {
-    	-fx-background-color:  #ae0112;
+    	-fx-background-color:  #9d0110;
     	-fx-text-fill: #e6e6e6;
 }
 
 .button3:focused {
-    	-fx-background-color: #ae0112;
+    	-fx-background-color: #9d0110;
     	-fx-text-fill: #e6e6e6;
 }
 
@@ -46,15 +46,15 @@
 }
 
 .button2:hover {
-    	-fx-background-color:  #3167e6;
+    	-fx-background-color:  #2c5dcf;
 }
 
 .button2:pressed {
-    	-fx-background-color:  #3167e6;
+    	-fx-background-color:  #2c5dcf;
 }
 
 .button2:focused {
-    	-fx-background-color: #3167e6;
+    	-fx-background-color: #2c5dcf;
 }
 
 // REMOVE ITEM BUTTON
